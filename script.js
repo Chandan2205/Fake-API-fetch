@@ -1,6 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
     const productsContainer = document.getElementById('productsContainer');
 
+
+    const openMenu = document.getElementById('openMenu');
+    const closeMenu = document.getElementById('closeMenu');
+    const sideMenu = document.getElementById('sideMenu');
+
+    openMenu.addEventListener('click', () => {
+      sideMenu.classList.add('active');
+    });
+
+    closeMenu.addEventListener('click', () => {
+      sideMenu.classList.remove('active');
+    });
+
+    document.addEventListener('click', function (e) {
+    const isClickInsideMenu = sideMenu.contains(e.target);
+    const isClickOnMenuIcon = openMenu.contains(e.target);
+
+    if (!isClickInsideMenu && !isClickOnMenuIcon) {
+      sideMenu.classList.remove('active');
+    }
+  });
+
     fetch('https://fakestoreapi.com/products')
         .then(res => res.json())
         .then(products => {
@@ -59,9 +81,11 @@ document.addEventListener('DOMContentLoaded', function () {
             
 
             
-            const button = document.createElement('button');
+            const button = document.createElement('a');
             button.className = 'btn btn-add-to-cart';
+            button.href = `product.html?id=${product.id}`;
             button.innerHTML = '<i class="fas fa-shopping-cart me-2"></i>Buy Now';
+
 
             const cardFooter = document.createElement('div');
             cardFooter.className = 'card-footer bg-transparent';
@@ -80,3 +104,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
